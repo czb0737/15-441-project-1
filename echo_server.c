@@ -46,16 +46,17 @@ int main(int argc, char* argv[])
     struct timeval timeout = {3, 0};
     //timeout.tv_sec = 3;
     //timeout.tv_usec = 0;
+    int i, j;
     int sock, client_sock;
     int client_set[MAX_CLIENT];
-    for (int i = 0; i < MAX_CLIENT; ++i)
+    for (i = 0; i < MAX_CLIENT; ++i)
     {
         client_set[i] = -1;
     }
     char* msg[MAX_MSG];
     int cli_msg[MAX_MSG];
     int msg_len[MAX_MSG];
-    for (int i = 0; i < MAX_MSG; ++i)
+    for (i = 0; i < MAX_MSG; ++i)
     {
         msg[i] = NULL;
         cli_msg[i] = -1;
@@ -131,7 +132,7 @@ int main(int argc, char* argv[])
                fprintf(stderr, "Error accepting connection.\n");
                return EXIT_FAILURE;
             }
-            for (int i = 0; i < MAX_CLIENT; ++i)
+            for (i = 0; i < MAX_CLIENT; ++i)
             {
                 if (client_set[i] == -1)
                 {
@@ -143,7 +144,7 @@ int main(int argc, char* argv[])
             //If accept successfully, add the client fd in fds
             FD_SET(client_sock, &fds);
         }
-        for(int i = 0; i < MAX_CLIENT; ++i)
+        for(i = 0; i < MAX_CLIENT; ++i)
         {
             if((client_sock = client_set[i]) < 0) continue;
             //printf("i: %d\n", i);
@@ -156,13 +157,13 @@ int main(int argc, char* argv[])
                 {
                    printf("%d\n", (int)readret);
                    if(readret == 0)    FD_CLR(client_sock, &fds);
-                   for (int i = 0; i < MAX_MSG; ++i)
+                   for (j = 0; j < MAX_MSG; ++j)
                    {
-                       if (msg[i] == NULL)
+                       if (msg[j] == NULL)
                        {
-                           msg[i] = buf;
-                           cli_msg[i] = client_sock;
-                           msg_len[i] = readret;
+                           msg[j] = buf;
+                           cli_msg[j] = client_sock;
+                           msg_len[j] = readret;
                            buf = malloc(BUF_SIZE * sizeof(char));
                            break;
                        }
@@ -191,7 +192,7 @@ int main(int argc, char* argv[])
             }
         }
         //printf("!7\n");
-        for (int i = 0; i < MAX_MSG; ++i)
+        for (i = 0; i < MAX_MSG; ++i)
         {
             if(msg[i] == NULL)  continue;
             printf("!8\n");
